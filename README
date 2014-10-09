@@ -1,6 +1,6 @@
-This is a bot for the vendocookies game. You can find more info in its website:
+This is a bot for the vendecookies game. You can find more info in its website:
 
-    http://www.vendocookies.com
+    http://www.vendecookies.com
 
 If you don't have any referal and you want to help you, you can introduce my
 nickname (pokoli) as referal, so I will get some help with your efforts.
@@ -24,7 +24,7 @@ Configuration
 =============
 
 In order to configure your username and password you must edit the config.py
-file and enter your Vendocookies credentials there.
+file and enter your vendecookies credentials there.
 
 
 Usage
@@ -32,7 +32,7 @@ Usage
 
 Just run the script with:
 
-    python vendocookies.py
+    python vendecookies.py
 
 The script will end when it founds a game that can not be solved automatically
 (or currently don't know how to solve it).
