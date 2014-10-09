@@ -1,0 +1,38 @@
+This is a bot for the vendocookies game. You can find more info in its website:
+
+    http://www.vendocookies.com
+
+If you don't have any referal and you want to help you, you can introduce my
+nickname (pokoli) as referal, so I will get some help with your efforts.
+
+
+Requirements
+============
+
+This program requires the requests python library in order to work, so you can
+install it by running:
+
+    pip install requests
+
+or
+
+    pip install -r requirements.txt
+
+
+
+Configuration
+=============
+
+In order to configure your username and password you must edit the config.py
+file and enter your Vendocookies credentials there.
+
+
+Usage
+=====
+
+Just run the script with:
+
+    python vendocookies.py
+
+The script will end when it founds a game that can not be solved automatically
+(or currently don't know how to solve it).
