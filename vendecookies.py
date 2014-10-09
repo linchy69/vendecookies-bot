@@ -8,11 +8,13 @@ from config import USERNAME, PASSWORD
 BASE_URL = 'http://www.vendecookies.com/'
 LOGIN_URL = BASE_URL + 'index.php'
 HOME_URL = BASE_URL + 'index.php?p=cocinar'
+REGALOS_URL = BASE_URL + 'index.php?p=regalos'
 RESOURCE_URL = BASE_URL + 'ws/ObtainResource.php'
 REGEXP = re.compile('index.php\?p=cocinar&r=[2-6]&h=(.*)')
 TITULO_EXP = re.compile('<div class="titulo">(.*)</div>')
 RESULT_EXP = re.compile('imatges/disseny/(.*)-0[2-6].png')
 FALTA_EXP = re.compile('falta" id="ing-(.*)">')
+REGALOS_EXP = re.compile('idr=(.*)"')
 resources = [2, 3, 4, 5, 6]
 
 def post_token(token):
@@ -46,6 +48,10 @@ with requests.session() as s:
 	    'usuario': USERNAME,
 	    'password': PASSWORD,
 	})
+    r = s.get(REGALOS_URL)
+    regalos = REGALOS_EXP.findall(r.text)
+    for regalo in regalos:
+        r = s.get(REGALOS_URL+'&idr='+regalo)
     while True:
         hashes = 0
         for resource in resources:
@@ -61,7 +67,7 @@ with requests.session() as s:
                 'Referer': 'http://www.vendecookies.com/index.php?p=cocinar&r=%d' % resource,
             })
             groups = REGEXP.findall(response.text)
-            
+
             titulos = TITULO_EXP.findall(response.text)
             if titulos:
                 titulo, = titulos
