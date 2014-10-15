@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
 import re
-import time
 import sys
 from config import USERNAME, PASSWORD
 
@@ -17,20 +16,21 @@ FALTA_EXP = re.compile('falta" id="ing-(.*)">')
 REGALOS_EXP = re.compile('idr=(.*)"')
 resources = [2, 3, 4, 5, 6]
 
+
 def post_token(token):
     token = token.replace('";', '')
     token = token.replace('\'></div>', '')
     for delimiter in ('else', ';"'):
         del_pos = token.find('else')
         if del_pos >= 0:
-	    token = token[:del_pos]
+            token = token[:del_pos]
     if 'suerte' in token:
         token = token[:32]
     if '+hash+' in token:
         print 'Please complete manually some effors'
         sys.exit(1)
-    print HOME_URL+'&r=%d&h=%s' % (resource, token)
-    response = s.get(HOME_URL+'&r=%d&h=%s' % (resource, token))
+    print HOME_URL + '&r=%d&h=%s' % (resource, token)
+    response = s.get(HOME_URL + '&r=%d&h=%s' % (resource, token))
     result, = RESULT_EXP.findall(response.text)
     print result
 
@@ -44,14 +44,14 @@ with requests.session() as s:
 
     # post to the login form
     r = s.post(BASE_URL, data={
-	    'entrar': 'INICIAR+SESIÓN',
-	    'usuario': USERNAME,
-	    'password': PASSWORD,
-	})
+            'entrar': 'INICIAR+SESIÓN',
+            'usuario': USERNAME,
+            'password': PASSWORD,
+        })
     r = s.get(REGALOS_URL)
     regalos = REGALOS_EXP.findall(r.text)
     for regalo in regalos:
-        r = s.get(REGALOS_URL+'&idr='+regalo)
+        r = s.get(REGALOS_URL + '&idr=' + regalo)
     while True:
         hashes = 0
         for resource in resources:
@@ -62,7 +62,7 @@ with requests.session() as s:
                 resource = int(falta[0])
             #time.sleep(2)
             response = s.post(RESOURCE_URL, data={
-                'resource':resource,
+                'resource': resource,
             }, headers={
                 'Referer': 'http://www.vendecookies.com/index.php?p=cocinar&r=%d' % resource,
             })
@@ -75,7 +75,7 @@ with requests.session() as s:
                 titulo = 'Regalo'
             print titulo
             token = None
-	    if len(groups) == 1:
+            if len(groups) == 1:
                 token, = groups
                 post_token(token)
             elif titulo == 'Ahorcado':
@@ -84,7 +84,7 @@ with requests.session() as s:
             elif 's es menos' in titulo:
                 token = groups[0]
                 post_token(token)
-	    else:
+            else:
                 token = groups[0]
                 post_token(token)
         print 'Compleeted one resource loop', hashes
