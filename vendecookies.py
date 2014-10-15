@@ -27,12 +27,16 @@ def post_token(token):
     if 'suerte' in token:
         token = token[:32]
     if '+hash+' in token:
-        print 'Please complete manually some effors'
+        print('Please complete manually some effors')
         sys.exit(1)
-    print HOME_URL + '&r=%d&h=%s' % (resource, token)
+    print(HOME_URL + '&r=%d&h=%s' % (resource, token))
     response = s.get(HOME_URL + '&r=%d&h=%s' % (resource, token))
-    result, = RESULT_EXP.findall(response.text)
-    print result
+    try:
+        result, = RESULT_EXP.findall(response.text)
+        print(result)
+    except ValueError:
+        pass
+
 
 with requests.session() as s:
     s.headers.update({
@@ -73,7 +77,7 @@ with requests.session() as s:
                 titulo, = titulos
             else:
                 titulo = 'Regalo'
-            print titulo
+            print(titulo)
             token = None
             if len(groups) == 1:
                 token, = groups
@@ -87,4 +91,4 @@ with requests.session() as s:
             else:
                 token = groups[0]
                 post_token(token)
-        print 'Compleeted one resource loop', hashes
+        print('Compleeted one resource loop', hashes)
